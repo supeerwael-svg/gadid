@@ -30,14 +30,11 @@ jobs:
           npm install @capacitor/core @capacitor/cli @capacitor/android
           npx vite build --base=./
 
-      - name: Initialize and Sync Capacitor Android
+      - name: Clean and Re-initialize Capacitor Android
         run: |
-          if [ ! -f capacitor.config.ts ] && [ ! -f capacitor.config.json ]; then
-            npx cap init EduTrack com.edutrack.app --web-dir dist
-          fi
-          if [ ! -d android ]; then
-            npx cap add android
-          fi
+          rm -rf android
+          npx cap init EduTrack com.edutrack.app --web-dir dist --force
+          npx cap add android
           npx cap sync android
 
       - name: Build Debug APK with Gradle
@@ -45,12 +42,6 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: EduTrack-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
