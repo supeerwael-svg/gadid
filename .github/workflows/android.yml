@@ -33,7 +33,7 @@ jobs:
       - name: Clean and Re-initialize Capacitor Android
         run: |
           rm -rf android
-          npx cap init EduTrack com.edutrack.app --web-dir dist --force
+          npx cap init EduTrack com.edutrack.app --web-dir dist --yes
           npx cap add android
           npx cap sync android
 
